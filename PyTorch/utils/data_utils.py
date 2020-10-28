@@ -17,7 +17,7 @@ class GetTrainingPairs(Dataset):
     """
     def __init__(self, root, dataset_name, transforms_=None):
         self.transform = transforms.Compose(transforms_)
-        self.filesA, self.filesB = self.get_file_paths(root, dataset_name)
+        self.filesA, self.filesB, self.files_ann = self.get_file_paths(root, dataset_name)
         self.len = min(len(self.filesA), len(self.filesB))
 
     def __getitem__(self, index):
@@ -43,7 +43,14 @@ class GetTrainingPairs(Dataset):
         elif dataset_name=='UFO-120':
                 filesA = sorted(glob.glob(os.path.join(root, 'lrd') + "/*.*"))
                 filesB = sorted(glob.glob(os.path.join(root, 'hr') + "/*.*"))
-        return filesA, filesB 
+        elif dataset_name=='Diver':
+            filesA, filesB, annotations = [], [], []
+            sub_dirs = ['underwater_imagenet', 'underwater_dark', 'underwater_scenes']
+            for sd in sub_dirs:
+                filesA += sorted(glob.glob(os.path.join(root, sd, 'trainA') + "/*.*"))
+                filesB += sorted(glob.glob(os.path.join(root, sd, 'trainB') + "/*.*"))
+                annotations += sorted(glob.glob(os.path.join(root, sd, 'train_annotations') + "/*.*"))
+        return filesA, filesB, annotations
 
 
 

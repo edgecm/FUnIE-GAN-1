@@ -174,6 +174,8 @@ for epoch in range(epoch, num_epochs):
     ## Save model checkpoints
     if (epoch % ckpt_interval == 0):
         torch.save(generator.state_dict(), "checkpoints/FunieGAN/%s/generator_%d.pth" % (dataset_name, epoch))
+        torch.save(optimizer_G.state_dict(), "checkpoints/FunieGAN/%s/optimg_%d.pth" % (dataset_name, epoch))
         torch.save(discriminator.state_dict(), "checkpoints/FunieGAN/%s/discriminator_%d.pth" % (dataset_name, epoch))
+        torch.save(optimizer_D.state_dict(), "checkpoints/FunieGAN/%s/optimd_%d.pth" % (dataset_name, epoch))
 
 
